@@ -73,4 +73,65 @@ router.get('/showTasks', async(req, res) => {
 
 });
 
+router.get('/showTask', async(req, res) => {
+    const { id_user, _id } = req.body;
+
+    const tasks = await Tasks.find({ id_user, _id });
+
+    return res.json(tasks);
+
+});
+
+router.post('/updateTaskFinishTrue', async(req, res) => {
+    const { _id } = req.body;
+
+    const tasks = await Tasks.findById(_id).populate('tasks');
+
+    tasks.finish = true;
+
+    await tasks.save();
+
+    return res.json(tasks);
+
+});
+
+router.post('/updateTaskFinishFalse', async(req, res) => {
+    const { _id } = req.body;
+
+    const tasks = await Tasks.findById(_id).populate('tasks');
+
+    tasks.finish = false;
+
+    await tasks.save();
+
+    return res.json(tasks);
+
+});
+
+router.post('/updateTaskArchiveTrue', async(req, res) => {
+    const { _id } = req.body;
+
+    const tasks = await Tasks.findById(_id).populate('tasks');
+
+    tasks.archive = true;
+
+    await tasks.save();
+
+    return res.json(tasks);
+
+});
+
+router.post('/updateTaskArchiveFalse', async(req, res) => {
+    const { _id } = req.body;
+
+    const tasks = await Tasks.findById(_id).populate('tasks');
+
+    tasks.archive = false;
+
+    await tasks.save();
+
+    return res.json(tasks);
+
+});
+
 module.exports = app => app.use('/auth', router);
